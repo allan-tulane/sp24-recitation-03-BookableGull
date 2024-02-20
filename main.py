@@ -3,6 +3,8 @@ CMPS 2200  Recitation 3.
 See recitation-03.md for details.
 """
 import time
+from math import sqrt
+from sys import getsizeof
 
 class BinaryNumber:
     """ done """
@@ -48,21 +50,54 @@ def quadratic_multiply(x, y):
     # this just converts the result from a BinaryNumber to a regular int
     return _quadratic_multiply(x,y).decimal_val
 
-def _quadratic_multiply(x, y):
-    ### TODO
+
+def int_to_binary(n):
+    if n == 0:
+        return ['0']
+    binary = []
+    while n > 0:
+        binary.insert(0, str(n % 2))
+        n //= 2
+    return binary
     pass
     ###
+
+
+
+def _quadratic_multiply(x, y):
+    xvec = x.binary_vec
+    yvec = y.binary_vec
+    if x.decimal_val <= 1 and y.decimal_val <= 1:
+        return BinaryNumber(x.decimal_val * y.decimal_val)
+    else:
+        xvec,yvec = pad(xvec,yvec)
+        x_left, x_right = split_number(xvec)
+        y_left, y_right = split_number(yvec)
+        firstpart = _quadratic_multiply(x_left,y_left)
+        firstpartbitshift = bit_shift(firstpart,len(xvec))
+        x_lefty_right = _quadratic_multiply(x_left,y_right)
+        x_righty_left = _quadratic_multiply(x_right,y_left)
+        secondpart1 = bit_shift(x_lefty_right, len(xvec) // 2)
+        secondpart2 = bit_shift(x_righty_left, len(xvec) // 2)
+        thirdpart = _quadratic_multiply(x_right,y_right)
+        answer = firstpartbitshift.decimal_val + secondpart1.decimal_val + secondpart2.decimal_val + thirdpart.decimal_val
+        return BinaryNumber(answer)
+
+
+    #return ((2^len(x))(binary2int(newx.binary_vec[:len(newx.binary_vec)//2])*binary2int(newy.binary_vec[:len(newy.binary_vec)//2]))) + (2^len(newx.binary_vec)) * binary2int(newx.binary_vec[:len(newx.binary_vec)//2])* (binary2int(newy.binary_vec[len(newy.binary_vec)//2:]))+ (binary2int(newy.binary_vec[len(newx.binary_vec)//2:])*(binary2int(newy.binary_vec[:len(newy.binary_vec)//2]))) +((binary2int(newy.binary_vec[len(newx.binary_vec)//2:])*((binary2int(newy.binary_vec[len(newy.binary_vec)//2:])))
 
 
     
     
 def test_quadratic_multiply(x, y, f):
     start = time.time()
-    # multiply two numbers x, y using function f
-    
+    # multiply two numbers x, y using function
+    f(x,y)
     return (time.time() - start)*1000
 
 
+print(quadratic_multiply(BinaryNumber(999), BinaryNumber(998)))
+print(test_quadratic_multiply(BinaryNumber(3),BinaryNumber(3), quadratic_multiply))
     
     
 
