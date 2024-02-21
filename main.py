@@ -84,7 +84,6 @@ def _quadratic_multiply(x, y):
         return BinaryNumber(answer)
 
 
-    #return ((2^len(x))(binary2int(newx.binary_vec[:len(newx.binary_vec)//2])*binary2int(newy.binary_vec[:len(newy.binary_vec)//2]))) + (2^len(newx.binary_vec)) * binary2int(newx.binary_vec[:len(newx.binary_vec)//2])* (binary2int(newy.binary_vec[len(newy.binary_vec)//2:]))+ (binary2int(newy.binary_vec[len(newx.binary_vec)//2:])*(binary2int(newy.binary_vec[:len(newy.binary_vec)//2]))) +((binary2int(newy.binary_vec[len(newx.binary_vec)//2:])*((binary2int(newy.binary_vec[len(newy.binary_vec)//2:])))
 
 
     
@@ -95,7 +94,7 @@ def test_quadratic_multiply(x, y, f):
     f(x,y)
     return (time.time() - start)*1000
 
-
+#tests for these two functions
 print(quadratic_multiply(BinaryNumber(999), BinaryNumber(998)))
 print(test_quadratic_multiply(BinaryNumber(3),BinaryNumber(3), quadratic_multiply))
     
